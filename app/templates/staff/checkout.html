@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block title %}Checkout Confirmation{% endblock %}
+{% block page_title %}Checkout Confirmation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12 mx-auto">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Checkout Confirmation</h4>
+                    <p class="mb-0">{{ client.first_name }} {{ client.last_name }}</p>
+                </div>
+                <div class="card-body bg-light">
+                    <h5 class="mt-4">Transaction Summary</h5>
+                    {% if transactions %}
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                
+                                <th>Service/Room</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for transaction in transactions %}
+                            <tr>
+                                
+                                <td>
+                                    {% if transaction.room %}
+                                    Room {{ transaction.room.room_number }} ({{ transaction.room.room_type }})
+                                    {% else %}
+                                    {{ transaction.service.name }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ transaction.quantity }}</td>
+                                <td>₦ {{ transaction.total_price }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <h5>Total Amount: ₦ {{ total_amount }}</h5>
+
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="payment_method">Payment Method</label>
+                            <select class="form-control" id="payment_method" name="payment_method" required>
+                                <option value="">Select Payment Method</option>
+                                <option value="card">Card</option>
+                                <option value="manual">Manual (External App/Software)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">Confirm Payment and Checkout</button>
+                        <a href="{{ url_for('staff.client_details', client_id=client.id) }}" class="btn btn-secondary">Cancel</a>
+                    </form>
+                    {% else %}
+                    <p>No transactions found for this client.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

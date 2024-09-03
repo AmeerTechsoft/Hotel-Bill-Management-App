@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Welcome to Hotel Management{% endblock %}
+
+{% block content %}
+<div class="page-header min-vh-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-8 d-flex flex-column justify-content-center">
+                <h1 class="text-gradient text-primary display-4">Hotel Bill Management System</h1>
+                <p class="lead text-muted">Effortlessly manage your hotel operations with our comprehensive system.</p>
+                <div class="mt-4">
+                    <a href="{{ url_for('auth.login') }}" class="btn bg-gradient-primary btn-lg">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-4 d-none d-lg-block">
+                <div class="position-relative">
+                    <img src="{{ url_for('static', filename='img/hotel.jpg') }}" class="img-fluid rounded shadow" alt="Hotel Image">
+                    <div class="card card-body blur shadow-blur position-absolute top-50 start-50 translate-middle">
+                        <h5 class="font-weight-bold mb-0">Experience Luxury</h5>
+                        <p class="text-sm">Seamless check-ins, comfortable stays, and unforgettable experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

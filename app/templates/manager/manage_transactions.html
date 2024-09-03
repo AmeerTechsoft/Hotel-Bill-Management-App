@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}Manage Transactions{% endblock %}
+{% block page_title %}Manage Transactions{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Transactions</h4>
+                </div>
+                <div class="card-body bg-light">
+                    {% if transactions %}
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Client</th>
+                                <th>Total Amount</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for client, client_transactions in transactions.items() %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ client.first_name }} {{ client.last_name }}</td>
+                                <td>₦ {{ client_transactions | sum(attribute='total_price') }}</td>
+                                <td>
+                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#transactionModal{{ client.id }}">
+                                        View Transactions
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Modal to show client's transactions -->
+                            <div class="modal fade" id="transactionModal{{ client.id }}" tabindex="-1" aria-labelledby="transactionModalLabel{{ client.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="transactionModalLabel{{ client.id }}">Transactions for {{ client.first_name }} {{ client.last_name }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul class="list-group">
+                                                {% for transaction in client_transactions %}
+                                                <li class="list-group-item">
+                                                    Room: {{ transaction.room.room_number }} | Amount: ₦ {{ transaction.total_price }} | Date: {{ transaction.date.strftime('%Y-%m-%d') }}
+                                                    <div class="float-end">
+                                                        <a href="{{ url_for('manager.edit_transaction', transaction_id=transaction.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                        <form action="{{ url_for('manager.delete_transaction', transaction_id=transaction.id) }}" method="POST" style="display:inline;">
+                                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>No transactions found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

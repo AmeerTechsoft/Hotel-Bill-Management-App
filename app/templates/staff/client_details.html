@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}Client Details{% endblock %}
+{% block page_title %}Client Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12 mx-auto">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Client Details</h4>
+                    <p class="mb-0">{{ client.first_name }} {{ client.last_name }}</p>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Contact Information</h5>
+                            <p><strong>Phone:</strong> {{ client.contact_number }}</p>
+                            <p><strong>Email:</strong> {{ client.email }}</p>
+                            <p><strong>Address:</strong> {{ client.address }}</p>
+
+                            {% if latest_transaction %}
+                            <h5 class="mt-4">Latest Transaction</h5>
+                            {% if latest_transaction.room %}
+                            <p><strong>Room:</strong> {{ latest_transaction.room.room_number }} ({{ latest_transaction.room.room_type }})</p>
+                            {% else %}
+                            <p><strong>Room:</strong> N/A</p>
+                            {% endif %}
+                            <p><strong>Check-In:</strong> {{ latest_transaction.check_in.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                            {% if latest_transaction.check_out %}
+                            <p><strong>Check-Out:</strong> {{ latest_transaction.check_out.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                            {% else %}
+                            <p><strong>Status:</strong> Currently Checked In</p>
+                            <a href="{{ url_for('staff.add_service', client_id=client.id) }}" class="btn btn-primary btn-sm">Add Service</a>
+                            <a href="{{ url_for('staff.check_out', client_id=client.id) }}" class="btn btn-warning btn-sm">Check Out</a>
+                            {% endif %}
+                            {% else %}
+                            <p><strong>Status:</strong> Not Checked In</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="mt-4">All Transactions</h5>
+                            {% if service_transactions %}
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Quantity</th>
+                                        <th>Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for transaction in service_transactions %}
+                                    <tr>
+                                        
+                                        <td>{{ transaction.service.name }} {{ transaction.service.description }}</td>
+                                        <td>{{ transaction.quantity }}</td>
+                                        <td>₦ {{ transaction.total_price }}</td>
+                                        <td>
+                                            {% if transaction.service %}
+                                            <form action="{{ url_for('staff.remove_service', client_id=client.id, transaction_id=transaction.id) }}" method="post" style="display:inline;">
+                                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                            </form>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}
+                            <p>No transactions found for this client.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

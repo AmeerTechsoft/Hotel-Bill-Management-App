@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <!-- Clients Section -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-light">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">Clients</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for client in clients %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ client.first_name }} {{ client.last_name }}</strong><br>
+                                    {{ client.contact_number }}
+                                </div>
+                                {% set latest_transaction = client.transactions[-1] if client.transactions else None %}
+                                {% if latest_transaction and latest_transaction.check_out is none %}
+                                    <div>
+                                        <a href="{{ url_for('staff.add_service', client_id=client.id) }}" class="btn btn-primary btn-sm">Add Service</a>
+                                        <a href="{{ url_for('staff.check_out', client_id=client.id) }}" class="btn btn-warning btn-sm">Check Out</a>
+                                    </div>
+                                {% else %}
+                                    <a href="{{ url_for('staff.check_in', client_id=client.id) }}" class="btn btn-success btn-sm">Check In</a>
+                                {% endif %}
+                                <!-- Add a button to view client details -->
+                                <a href="{{ url_for('staff.client_details', client_id=client.id) }}" class="btn btn-info btn-sm">View Details</a>
+                            </li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rooms Section -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-light">
+                <div class="card-header bg-secondary text-white">
+                    <h6 class="mb-0">Rooms</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        {% for room in rooms %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Room {{ room.room_number }}</strong><br>
+                                {{ room.room_type }} - {{ room.status }}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

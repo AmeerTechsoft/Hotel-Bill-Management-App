@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}Add Service{% endblock %}
+{% block page_title %}Add Service{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Add Service to {{ client.first_name }} {{ client.last_name }}</h4>
+                </div>
+                <div class="card-body bg-light">
+                    {% if client.transactions %}
+                        {% set active_transaction = client.transactions | selectattr('check_out', 'equalto', None) | first %}
+                        {% if active_transaction %}
+                            <form action="{{ url_for('staff.add_service', client_id=client.id) }}" method="POST">
+                                {{ form.hidden_tag() }}
+                                
+                                <div class="mb-4">
+                                    {{ form.service_id.label(class="form-label text-dark fw-bold") }}
+                                    {{ form.service_id(class="form-select border-dark") }}
+                                </div>
+                                
+                                <div class="mb-4">
+                                    {{ form.quantity.label(class="form-label text-dark fw-bold") }}
+                                    {{ form.quantity(class="form-control border-dark") }}
+                                </div>
+                                
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary btn-lg text-white">Add Service</button>
+                                </div>
+                            </form>
+                        {% else %}
+                            <div class="alert alert-warning" role="alert">
+                                This client is either not checked in or has already checked out.
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">
+                            No transactions found for this client.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

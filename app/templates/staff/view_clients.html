@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}View Clients{% endblock %}
+{% block page_title %}View Clients{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Clients</h4>
+                </div>
+                <div class="card-body bg-light">
+                    <!-- Search and Filter Form -->
+                    <form method="get" action="{{ url_for('staff.view_clients') }}">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input type="text" name="search" class="form-control" placeholder="Search by name or email" value="{{ search_query }}">
+                            </div>
+                            <div class="col-md-4">
+                                <select name="status" class="form-control">
+                                    <option value="">All Statuses</option>
+                                    <option value="checked_in" {% if filter_status == 'checked_in' %}selected{% endif %}>Checked In</option>
+                                    <option value="checked_out" {% if filter_status == 'checked_out' %}selected{% endif %}>Checked Out</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">Search</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Client Table -->
+                    {% if clients %}
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for client in clients %}
+                            <tr>
+                                <td>{{ loop.index }}</td> 
+                                <td>{{ client.first_name }} {{ client.last_name }}</td>
+                                <td>{{ client.email }}</td>
+                                <td>
+                                    {% if client.transactions %}
+                                        {% if client.transactions[0].check_out is none %}
+                                            Checked In
+                                        {% else %}
+                                            Checked Out
+                                        {% endif %}
+                                    {% else %}
+                                        None Yet
+                                    {% endif %}
+                                </td>
+                                
+                                <td>
+                                    <a href="{{ url_for('staff.client_details', client_id=client.id) }}" class="btn btn-info btn-sm">View Details</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>No clients found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

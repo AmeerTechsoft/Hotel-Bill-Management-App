@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}Check In Client{% endblock %}
+{% block page_title %}Check In Client{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Check In</h4>
+                    <p class="mb-0">{{ client.first_name }} {{ client.last_name }}</p>
+                </div>
+                <div class="card-body bg-light">
+                    <form action="{{ url_for('staff.check_in', client_id=client.id) }}" method="POST">
+                        {{ form.hidden_tag() }}
+
+                        <div class="mb-4">
+                            {{ form.room_id.label(class="form-label text-dark fw-bold") }}
+                            {{ form.room_id(class="form-select border-dark") }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.check_in.label(class="form-label text-dark fw-bold") }}
+                            {{ form.check_in(class="form-control border-dark", value=current_time, readonly=True) }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.nights.label(class="form-label text-dark fw-bold") }}
+                            {{ form.nights(class="form-control border-dark") }}
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary btn-lg text-white">Check In</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

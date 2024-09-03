@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block title %}Manager Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Income Summary -->
+        <div class="col-md-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>Income Summary</h4>
+                <div>
+                    <i class="fas fa-naira-sign fa-2x me-2"></i>
+                    <span class="text-muted">Updated Daily</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="p-3 border border-success rounded">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-1">Daily Income</h5>
+                            <span class="text-success"><i class="fas fa-calendar-day"></i></span>
+                        </div>
+                        <h2 class="mt-2">₦ {{ daily_income }}</h2>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="p-3 border border-warning rounded">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-1">Weekly Income</h5>
+                            <span class="text-warning"><i class="fas fa-calendar-week"></i></span>
+                        </div>
+                        <h2 class="mt-2">₦ {{ weekly_income }}</h2>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="p-3 border border-info rounded">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-1">Monthly Income</h5>
+                            <span class="text-info"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                        <h2 class="mt-2">₦ {{ monthly_income }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Statistics -->
+        <div class="col-md-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>Summary Statistics</h4>
+                <div>
+                    <i class="fas fa-tachometer-alt fa-2x me-2"></i>
+                    <span class="text-muted">Latest Data</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Clients</h6>
+                        <p class="fs-4">{{ clients|length }}</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Rooms</h6>
+                        <p class="fs-4">{{ rooms|length }}</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Services</h6>
+                        <p class="fs-4">{{ services|length }}</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Transactions</h6>
+                        <p class="fs-4">{{ transactions|length }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Room Status -->
+        <div class="col-md-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>Room Status</h4>
+                <div>
+                    <i class="fas fa-bed fa-2x me-2"></i>
+                    <span class="text-muted">Current Status</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Available Rooms</h6>
+                        <p class="fs-4">{{ available_rooms }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Occupied Rooms</h6>
+                        <p class="fs-4">{{ occupied_rooms }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Maintenance Rooms</h6>
+                        <p class="fs-4">{{ maintenance_rooms }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User and Category Summary -->
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>User and Category Summary</h4>
+                <div>
+                    <i class="fas fa-users fa-2x me-2"></i>
+                    <span class="text-muted">Overview</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Total Users</h6>
+                        <p class="fs-4">{{ users|length }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="border rounded p-3 bg-light">
+                        <h6>Total Categories</h6>
+                        <p class="fs-4">{{ categories|length }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Manage Services{% endblock %}
+{% block page_title %}Manage Services{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Services</h4>
+                    <a href="{{ url_for('manager.add_service') }}" class="btn btn-success mt-2">Add Service</a>
+                </div>
+                <div class="card-body bg-light">
+                    {% if services %}
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for service in services %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ service.name }}</td>
+                                <td>{{ service.description }}</td>
+                                <td>₦ {{ service.price }}</td>
+                                <td>
+                                    <a href="{{ url_for('manager.edit_service', service_id=service.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ url_for('manager.delete_service', service_id=service.id) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>No services found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

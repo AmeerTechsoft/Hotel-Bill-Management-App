@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}Manage Categories{% endblock %}
+{% block page_title %}Manage Categories{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Categories</h4>
+                    <a href="{{ url_for('manager.add_category') }}" class="btn btn-success mt-2">Add Category</a>
+                </div>
+                <div class="card-body bg-light">
+                    {% if categories %}
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ category.name }}</td>
+                                <td>
+                                    <a href="{{ url_for('manager.edit_category', category_id=category.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ url_for('manager.delete_category', category_id=category.id) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>No categories found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

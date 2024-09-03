@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Manage Rooms{% endblock %}
+{% block page_title %}Manage Rooms{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Rooms</h4>
+                    <a href="{{ url_for('manager.add_room') }}" class="btn btn-success mt-2">Add Room</a>
+                </div>
+                <div class="card-body bg-light">
+                    {% if rooms %}
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Room Number</th>
+                                <th>Room Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for room in rooms %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ room.room_number }}</td>
+                                <td>{{ room.room_type }}</td>
+                                <td>{{ room.status }}</td>
+                                <td>
+                                    <a href="{{ url_for('manager.edit_room', room_id=room.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ url_for('manager.delete_room', room_id=room.id) }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p>No rooms found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit Room{% endblock %}
+{% block page_title %}Edit Room{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 mx-auto">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h4 class="mb-0">Edit Room</h4>
+                </div>
+                <div class="card-body bg-light">
+                    <form action="{{ url_for('manager.edit_room', room_id=room.id) }}" method="POST">
+                        <div class="form-group">
+                            <label for="room_number">Room Number</label>
+                            <input type="text" id="room_number" name="room_number" class="form-control" value="{{ room.room_number }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="room_type">Room Type</label>
+                            <input type="text" id="room_type" name="room_type" class="form-control" value="{{ room.room_type }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price_per_night">Price</label>
+                            <input type="number" id="price_per_night" name="price_per_night" class="form-control" value="{{ room.price_per_night }}" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status</label>
+                            <select id="status" name="status" class="form-control">
+                                <option value="available" {% if room.status == 'available' %}selected{% endif %}>Available</option>
+                                <option value="occupied" {% if room.status == 'occupied' %}selected{% endif %}>Occupied</option>
+                                <option value="cleaning" {% if room.status == 'cleaning' %}selected{% endif %}>Cleaning</option>
+                                <option value="maintained" {% if room.status == 'maintained' %}selected{% endif %}>Maintained</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Room</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
