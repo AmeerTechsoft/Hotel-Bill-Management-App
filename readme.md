@@ -10,7 +10,6 @@ A web-based hotel management system built using Flask, Soft UI for design, and B
 - Database Models
 - Routes
 - Technologies Used
-- Screenshots
 - License
 
 ## Features
@@ -23,33 +22,6 @@ A web-based hotel management system built using Flask, Soft UI for design, and B
 - **Income Reporting:** Provides daily, weekly, and monthly income summaries.
 - **Password Management:** Managers can generate and send user passwords.
 
-## Project Structure
-
-```plaintext
-hotel-management-system/
-│
-├── app/
-│   ├── __init__.py
-│   ├── models.py
-│   ├── routes/
-│   │   ├── admin.py
-│   │   ├── manager.py
-│   │   ├── staff.py
-│   │   └── auth.py
-│   ├── templates/
-│   │   ├── layout.html
-│   │   ├── index.html
-│   │   ├── manager/
-│   │   │   └── dashboard.html
-│   │   └── auth/
-│   │       └── login.html
-│   └── static/
-│       └── css/
-│           └── style.css
-├── config.py
-├── requirements.txt
-└── README.md
-```
 
 ## Installation
 
